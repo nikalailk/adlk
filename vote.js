@@ -1,9 +1,9 @@
 async function start(times) {
-    console.log(`VOTING start time: ${new Date().toISOString()}`);
+    console.log(`VOTING start time: ${getTimestamp()}`);
     let logBatch = [];
     for (let counter = 0; counter <= times; counter++) {
         if (counter % 100 === 0) {
-            logBatch.push(`VOTING iteration: ${counter}  ${new Date().toISOString()}`);
+            logBatch.push(`VOTING ${counter}  ${getTimestamp()}`);
         }
         await new Promise(resolve => setTimeout(resolve, 500));
         const isLast = counter === times;
@@ -16,7 +16,12 @@ async function start(times) {
             logBatch = [];
         }
     }
-    console.log(`VOTING end time: ${new Date().toISOString()}`);
+    console.log(`VOTING end time: ${getTimestamp()}`);
+}
+
+function getTimestamp(){
+    var date = new Date()
+    return date.toLocaleTimeString('it-IT')
 }
 
 function addbits(s) {
@@ -54,9 +59,8 @@ function checkDiff() {
     try {
         const votes = Array.from(document.getElementsByClassName('pds-feedback-votes'))
         .map(vote => parseInt(vote.innerText.replace(/[(),votes\s&]+/g, '')));
-        console.log(`VOTING 1stRank: ${document.getElementsByClassName('pds-answer-text')[0].innerText} ${votes[0]}`);
-        console.log(`VOTING 2ndRank: ${document.getElementsByClassName('pds-answer-text')[1].innerText} ${votes[1]}`);
-        console.log(`VOTING diff: ${votes[0] - votes[1]}`);
+        console.log(`VOTING ${document.getElementsByClassName('pds-answer-text')[0].innerText} ${votes[0]}`);
+        console.log(`VOTING ${document.getElementsByClassName('pds-answer-text')[1].innerText} ${votes[1]}`);
     } catch (error) {
         console.error('An error occurred while calculating the difference:', error);
     }
